@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>PYQ & Notes | Sign In</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #f1f5f9;
+            }
+
+            .center-box {
+                background: #fff;
+                border-radius: 16px;
+                box-shadow: 0 4px 24px rgba(59, 130, 246, 0.10);
+                padding: 40px 32px;
+                text-align: center;
+                max-width: 400px;
+                width: 100%;
+            }
+
+            .site-title {
+                font-size: 2rem;
+                font-weight: bold;
+                color: #3b82f6;
+                margin-bottom: 12px;
+            }
+
+            .site-desc {
+                color: #334155;
+                margin-bottom: 32px;
+            }
+        </style>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+    </head>
+
+    <body>
+        <div class="center-box">
+            <div class="site-title">PYQ & Notes</div>
+            <div class="site-desc">
+                Access previous year questions and high-quality notes for all your subjects.<br>
+                Sign in with Google to continue.
+            </div>
+            <div id="g_id_onload"
+                data-client_id="638989482957-u2ei0r2so1l8easkkmpessm3bsrms8ad.apps.googleusercontent.com"
+                data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse"
+                data-auto_prompt="false">
+            </div>
+            <div class="g_id_signin" data-type="standard" data-shape="pill" data-theme="outline"
+                data-text="sign_in_with" data-size="large" data-logo_alignment="left">
+            </div>
+        </div>
+        <script>
+            function handleCredentialResponse(response) {
+                const jwt = response.credential;
+                const payload = JSON.parse(atob(jwt.split('.')[1]));
+                const email = payload.email;
+                const firstName = payload.given_name;
+                const lastName = payload.family_name;
+                const picture = payload.picture;
+
+                const allowedDomains = ["@mitsgwl.ac.in", "@mitsgwalior.in"];
+                const isAllowed = allowedDomains.some(domain => email.endsWith(domain));
+
+                if (isAllowed) {
+                    localStorage.setItem('user', JSON.stringify({
+                        email: email,
+                        firstName: firstName,
+                        lastName: lastName,
+                        picture: picture
+                    }));
+                    if (email.endsWith("@mitsgwl.ac.in")) {
+                        window.location.href = "student-dashboard.html";
+                    } else if (email.endsWith("@mitsgwalior.in")) {
+                        window.location.href = "faculty-dashboard.html";
+                    } else {
+                        window.location.href = "index.html";
+                    }
+                } else {
+                    alert("Only MITS Gwalior email addresses are allowed.");
+                    window.location.href = "access-denied.html"; // Optional redirect
+                }
+            }
+        </script>
+    </body>
+
+</html>
