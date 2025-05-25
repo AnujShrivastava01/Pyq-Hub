@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>PYQ & Notes | Home</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;600;700&display=swap"
+            rel="stylesheet">
+        <style>
+            body {
+                background: #fff;
+                min-height: 100vh;
+                margin: 0;
+                font-family: 'Poppins', sans-serif;
+            }
+
+            .navbar {
+                background: #f7faff;
+                box-shadow: 0 2px 8px rgba(59, 130, 246, 0.05);
+            }
+
+            .navbar-brand {
+                font-weight: 700;
+                color: #426df0 !important;
+                font-size: 1.7rem;
+                letter-spacing: 1px;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            .nav-link {
+                color: #334155 !important;
+                font-weight: 500;
+                transition: color 0.2s, border-bottom 0.2s;
+                border-bottom: 2px solid transparent;
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+            }
+
+            .nav-link.active,
+            .nav-link:hover {
+                color: #426df0 !important;
+                border-bottom: 2px solid #6a3fd8;
+            }
+
+            .hero-section {
+                position: relative;
+                background: linear-gradient(120deg, #2563eb 0%, #7c3aed 100%);
+                color: #fff;
+                padding: 72px 0 56px 0;
+                text-align: center;
+                box-shadow: 0 4px 32px rgba(42, 64, 161, 0.13);
+                overflow: hidden;
+            }
+
+            .hero-section::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                z-index: 0;
+                background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0px, rgba(255, 255, 255, 0.07) 1px, transparent 1px, transparent 24px);
+                pointer-events: none;
+            }
+
+            .hero-section .container,
+            .hero-section .hero-title,
+            .hero-section .hero-subtitle,
+            .hero-section .hero-desc {
+                position: relative;
+                z-index: 1;
+            }
+
+            .hero-section .hero-title,
+            .hero-section .hero-subtitle,
+            .hero-section .hero-desc {
+                text-shadow: 0 2px 16px rgba(50, 80, 200, 0.10);
+            }
+
+            .hero-section .hero-title {
+                font-size: 3.2rem;
+                font-weight: 800;
+                color: #fff;
+                margin-bottom: 0.5rem;
+            }
+
+            .hero-section .hero-subtitle {
+                font-size: 2.3rem;
+                font-weight: 700;
+                color: #bfdcfe;
+                margin-bottom: 1.2rem;
+            }
+
+            .hero-section .hero-desc {
+                font-size: 1.25rem;
+                color: #e3eefe;
+                font-weight: 400;
+                margin-bottom: 2.2rem;
+            }
+
+            .g_id_signin {
+                margin: 0 auto;
+            }
+
+            .features-row .card {
+                border: none;
+                border-radius: 20px;
+                box-shadow: 0 4px 24px rgba(42, 64, 161, 0.13);
+                margin-bottom: 24px;
+                background: #f8fafc;
+                transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+                padding: 32px 18px 24px 18px;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                aspect-ratio: 1 / 1;
+            }
+
+            .features-row .card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 30px rgba(42, 64, 161, 0.15);
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+                margin-bottom: 14px;
+                color: #2b50a1;
+                transition: color 0.2s, transform 0.2s;
+            }
+
+            .features-row .card:hover .feature-icon {
+                color: #6a3fd8;
+                transform: scale(1.2) rotate(-8deg);
+            }
+
+            .section-title {
+                font-size: 2.1rem;
+                font-weight: 700;
+                color: #426df0;
+                margin: 56px 0 28px 0;
+                text-align: center;
+            }
+
+            .about-section {
+                position: relative;
+                background: #0b2447;
+                border-radius: 16px;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+                padding: 40px;
+                margin: 56px auto;
+                color: white;
+                transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            }
+
+            .about-section h3 {
+                font-weight: 700;
+                color: white;
+                margin-bottom: 16px;
+                text-align: left;
+            }
+
+            .about-section p {
+                color: white;
+                font-size: 1rem;
+                text-align: left;
+                margin-bottom: 0;
+            }
+
+            .about-developer {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 20px;
+                text-align: center;
+                color: #e0e7ff;
+                font-size: 0.9rem;
+                max-width: 180px;
+                margin-left: auto;
+                aspect-ratio: 1 / 1;
+            }
+
+            .about-developer .dev-icon {
+                font-size: 2.5rem;
+                color: #bfdcfe;
+                margin-bottom: 8px;
+            }
+
+            .about-developer .dev-name {
+                font-weight: 600;
+                color: #fff;
+                margin-top: 4px;
+            }
+
+            .btn-primary,
+            .btn-primary:focus {
+                background: linear-gradient(90deg, #2b50a1 0%, #6a3fd8 100%);
+                border: none;
+                font-weight: 600;
+                border-radius: 30px;
+                padding: 10px 32px;
+                font-size: 1.1rem;
+                box-shadow: 0 2px 8px rgba(42, 64, 161, 0.13);
+                transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+            }
+
+            .btn-primary:hover {
+                background: linear-gradient(90deg, #6a3fd8 0%, #2b50a1 100%);
+                box-shadow: 0 6px 24px rgba(42, 64, 161, 0.18);
+                transform: scale(1.06);
+            }
+
+            .footer {
+                background: #f8fafc;
+                color: #64748b;
+                padding: 0;
+                margin-top: 48px;
+                border-top: 1px solid #e2e8f0;
+                font-size: 0.95rem;
+            }
+
+            .dev-credit {
+                color: #111;
+                font-weight: 400;
+                font-size: 1rem;
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid #e2e8f0;
+            }
+
+            .social-icons a {
+                color: #8a94a6;
+                margin: 0 8px;
+                font-size: 1.15rem;
+                transition: color 0.2s, transform 0.2s;
+            }
+
+            .social-icons a:hover {
+                color: #5046e5;
+                transform: scale(1.15);
+            }
+
+            @media (max-width: 768px) {
+                .hero-title {
+                    font-size: 2rem;
+                }
+
+                .section-title {
+                    font-size: 1.3rem;
+                }
+
+                .about-section {
+                    padding: 32px 10px;
+                }
+            }
+
+            .main-section-bg {
+                background: #fff;
+                color: #111;
+                padding-top: 32px;
+                padding-bottom: 32px;
+            }
+
+            /* Common Card Styling and Hover Effects */
+            .features-row .card,
+            .benefits-row .card {
+                border: none;
+                border-radius: 16px;
+                box-shadow: 0 4px 24px rgba(42, 64, 161, 0.08);
+                margin-bottom: 24px;
+                background: #fff;
+                /* White background for cards */
+                transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+                padding: 32px 18px 24px 18px;
+                text-align: center;
+                display: flex;
+                /* Enable flexbox for equal height */
+                flex-direction: column;
+                /* Stack content vertically */
+            }
+
+            .features-row .card:hover,
+            .benefits-row .card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 30px rgba(42, 64, 161, 0.15);
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+                margin-bottom: 14px;
+                color: #2b50a1;
+                /* Default icon color */
+                transition: color 0.2s, transform 0.2s;
+            }
+
+            .features-row .card:hover .feature-icon,
+            .benefits-row .card:hover .feature-icon {
+                color: #6a3fd8;
+                transform: scale(1.2) rotate(-8deg);
+            }
+
+            /* Remove hover effect from the about section */
+            .about-section:hover {
+                transform: none;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+                /* Reset shadow to match default state */
+            }
+
+            .about-developer:hover {
+                background: rgba(255, 255, 255, 0.2);
+                /* Slightly brighter background on hover */
+                transition: background 0.2s ease-in-out;
+            }
+        </style>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+            <div class="container-fluid px-4">
+                <a class="navbar-brand" href="#" style="padding-right: 0.5rem;">
+                    <img src="mitslogo.png" alt="MITS Logo" style="height:36px;width:auto;vertical-align:middle;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                    <ul class="navbar-nav align-items-center" style="gap: 1.2rem; margin-left: 0.5rem;">
+                        <li class="nav-item"><a class="nav-link active" href="#"><i class="fa-solid fa-house"></i>
+                                Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#features"><i
+                                    class="fa-solid fa-layer-group"></i> Features</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about"><i class="fa-solid fa-circle-info"></i>
+                                About</a></li>
+                    </ul>
+                    <div class="d-flex align-items-center ms-auto">
+                        <div id="g_id_onload"
+                            data-client_id="549605548698-fntpgpqvdpt93h4aetrithio4h6lk2ve.apps.googleusercontent.com"
+                            data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse"
+                            data-auto_prompt="false">
+                        </div>
+                        <div class="g_id_signin ms-3" data-type="standard" data-shape="pill" data-theme="outline"
+                            data-text="signin" data-size="medium" data-logo_alignment="left">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-title">MITS Gwalior</div>
+                <div class="hero-subtitle">PYQ & Notes System</div>
+                <div class="hero-desc">
+                    The official platform for secure, verified previous year questions and high-quality notes<br>
+                    from <span style="color:#fff;font-weight:600;">Madhav Institute of Technology & Science,
+                        Gwalior</span>.<br>
+                    Sign in with your college email to get started!
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <div class="container main-section-bg" id="features">
+            <div class="row features-row text-center mt-5">
+                <div class="col-md-3 col-6">
+                    <div class="card">
+                        <div class="feature-icon"><i class="fa-solid fa-cloud"></i></div>
+                        <h5>100% Digital</h5>
+                        <p>All notes and PYQs are available online, anytime, anywhere.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card">
+                        <div class="feature-icon"><i class="fa-solid fa-lock"></i></div>
+                        <h5>Secure Access</h5>
+                        <p>Only verified college students and faculty can access the resources.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card">
+                        <div class="feature-icon"><i class="fa-solid fa-certificate"></i></div>
+                        <h5>Official Content</h5>
+                        <p>All materials are curated and verified by faculty and toppers.</p>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="card">
+                        <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <h5>Instant Download</h5>
+                        <p>Download or share notes and PYQs instantly for your convenience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Section -->
+        <div class="container main-section-bg mt-5">
+            <div class="section-title">Why Choose PYQ & Notes?</div>
+            <div class="row text-center benefits-row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="feature-icon"><i class="fa-solid fa-check-circle"></i></div>
+                        <h6>Verified Content</h6>
+                        <p>All resources are checked for accuracy and relevance by subject experts.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                        <h6>Easy Search</h6>
+                        <p>Find notes and PYQs by subject, year, or topic in seconds.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="feature-icon"><i class="fa-solid fa-share-nodes"></i></div>
+                        <h6>Universal Access</h6>
+                        <p>Access your study materials from any device, anytime.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="container main-section-bg" id="about">
+            <div class="about-section row align-items-center">
+                <div class="col-md-8">
+                    <h3>Empowering Your Academic Journey</h3>
+                    <p style="font-size:0.8rem;">
+                        PYQ & Notes is your trusted companion for exam preparation and learning. We provide a secure,
+                        official, and always up-to-date repository of previous year questions and high-quality notes,
+                        accessible only to MITS Gwalior students and faculty.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <div class="about-developer">
+                        <div class="dev-icon"><i class="fa-solid fa-user"></i></div>
+                        Developed by<br>
+                        <div class="dev-name">Anuj Shrivastava</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container-fluid px-4 py-3">
+                <div class="row align-items-center">
+                    <div class="col-md-4 d-flex align-items-start" style="gap: 10px;">
+                        <img src="mitslogo.png" alt="MITS Logo" style="height:30px;width:auto;">
+                        <div>
+                            <div style="font-weight:600;font-size:0.95rem;color:#000103; line-height: 1.2;">PYQ & Notes
+                            </div>
+                            <div style="font-size:0.85rem;color:#64748b; line-height: 1.3;">A secure platform for
+                                previous year questions and high-quality notes for MITS Gwalior students and faculty.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center" style="font-size:0.85rem;color:#64748b;">
+                        &copy; 2025 PYQ & Notes, MITS Gwalior. All rights reserved.
+                    </div>
+                    <div class="col-md-4 text-md-end text-center">
+                        <div class="social-icons d-flex justify-content-center justify-content-md-end"
+                            style="gap: 8px;">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fa-solid fa-globe"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid text-center py-2"
+                style="border-top: 1px solid #e2e8f0; font-size:0.85rem; color: #111;">
+                <i class="fa-solid fa-code"></i> Developed by Anuj Shrivastava
+            </div>
+        </footer>
+
+        <script>
+            function handleCredentialResponse(response) {
+                const jwt = response.credential;
+                const payload = JSON.parse(atob(jwt.split('.')[1]));
+                const email = payload.email;
+                const firstName = payload.given_name;
+                const lastName = payload.family_name;
+                const picture = payload.picture;
+
+                const allowedDomains = ["@mitsgwl.ac.in", "@mitsgwalior.in"];
+                const isAllowed = allowedDomains.some(domain => email.endsWith(domain));
+                // Allow specific faculty email
+                const isSpecialFaculty = email === "sweta82shrivastava@gmail.com";
+
+                if (isAllowed || isSpecialFaculty) {
+                    localStorage.setItem('user', JSON.stringify({
+                        email: email,
+                        firstName: firstName,
+                        lastName: lastName,
+                        picture: picture
+                    }));
+                    if (email.endsWith("@mitsgwl.ac.in")) {
+                        window.location.href = "student-dashboard.html";
+                    } else if (email.endsWith("@mitsgwalior.in") || isSpecialFaculty) {
+                        window.location.href = "faculty-dashboard.html";
+                    } else {
+                        window.location.href = "index.html";
+                    }
+                } else {
+                    alert("Only MITS Gwalior email addresses are allowed.");
+                    window.location.href = "access-denied.html";
+                }
+            }
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+</html>

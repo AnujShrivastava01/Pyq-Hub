@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Faculty Dashboard | PYQ & Notes</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;600;700&display=swap"
+            rel="stylesheet">
+        <style>
+            body {
+                min-height: 100vh;
+                background: #fff;
+                background-image:
+                    url('https://cdn.pixabay.com/photo/2017/01/31/13/14/book-2022464_1280.png'),
+                    url('https://cdn.pixabay.com/photo/2013/07/12/13/57/pen-147319_1280.png');
+                background-repeat: no-repeat, no-repeat;
+                background-size: 180px 180px, 120px 120px;
+                background-position: left bottom, right top;
+                background-attachment: fixed;
+                font-family: 'Poppins', sans-serif;
+            }
+
+            .navbar {
+                border-radius: 0 0 18px 18px;
+                box-shadow: 0 4px 32px rgba(42, 64, 161, 0.13);
+            }
+
+            .navbar-brand {
+                font-weight: bold;
+                font-size: 1.7rem;
+                color: #2563eb !important;
+                letter-spacing: 1px;
+            }
+
+            .profile-pic {
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                margin-right: 10px;
+                border: 2px solid #7c3aed;
+                background: #fff;
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                color: #222;
+            }
+
+            .dashboard-card {
+                border: none;
+                border-radius: 18px;
+                background: rgba(255, 255, 255, 0.13);
+                box-shadow: 0 8px 30px rgba(42, 64, 161, 0.13);
+                transition: transform 0.2s, box-shadow 0.2s;
+                margin-bottom: 24px;
+            }
+
+            .dashboard-card:hover {
+                transform: translateY(-8px) scale(1.03);
+                box-shadow: 0 16px 40px rgba(42, 64, 161, 0.18);
+                background: rgba(255, 255, 255, 0.19);
+            }
+
+            .dashboard-card .card-title {
+                color: #2563eb;
+                font-weight: 700;
+            }
+
+            .dashboard-card .btn {
+                font-weight: 600;
+                letter-spacing: 0.5px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+                font-weight: 700;
+                color: #222;
+                margin: 40px 0 18px 0;
+                text-shadow: none;
+            }
+
+            .dashboard-desc {
+                color: #222;
+                font-size: 1.1rem;
+                margin-bottom: 32px;
+            }
+
+            .filter-bar {
+                background: rgba(255, 255, 255, 0.13);
+                border-radius: 12px;
+                padding: 18px 24px;
+                margin-bottom: 32px;
+                box-shadow: 0 4px 16px rgba(42, 64, 161, 0.10);
+            }
+
+            .filter-bar label {
+                color: #2563eb;
+                font-weight: 500;
+            }
+
+            .table thead th {
+                background: #2563eb;
+                color: #fff;
+                border: none;
+            }
+
+            .table tbody tr {
+                background: rgba(255, 255, 255, 0.93);
+            }
+
+            .modal-content {
+                border-radius: 18px;
+            }
+
+            .upload-spinner {
+                display: none;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.7);
+                z-index: 1051;
+            }
+        </style>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">PYQ & Notes</a>
+                <div class="ms-auto user-info">
+                    <img id="profilePicture" class="profile-pic" src="https://ui-avatars.com/api/?name=Faculty"
+                        alt="Profile Picture">
+                    <span id="userName" class="me-3" style="color:#222;">User Name</span>
+                    <button class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </nav>
+        <div class="container mt-4">
+            <div class="text-center mb-4">
+                <h2 class="section-title">Faculty Dashboard</h2>
+                <p class="dashboard-desc">Upload Notes & PYQ, manage your uploads, and explore resources shared by all
+                    faculty and students.</p>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Upload PYQ</h5>
+                            <p class="card-text">Upload previous year question papers for students.</p>
+                            <button class="btn btn-primary" onclick="uploadPYQ()">Upload PYQ</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Upload Notes</h5>
+                            <p class="card-text">Share your notes with students.</p>
+                            <button class="btn btn-success" onclick="uploadNotes()">Upload Notes</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card dashboard-card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">My Uploads</h5>
+                            <p class="card-text">View and manage your uploaded files.</p>
+                            <button class="btn btn-info" onclick="viewUploads()">My Uploads</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- FILTER BAR -->
+            <div class="filter-bar mb-4">
+                <form id="filterForm" class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <label for="filterType" class="form-label">Type</label>
+                        <select id="filterType" class="form-select">
+                            <option value="">All</option>
+                            <option value="PYQ">PYQ</option>
+                            <option value="Notes">Notes</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filterBranch" class="form-label">Branch</label>
+                        <select id="filterBranch" class="form-select">
+                            <option value="">All</option>
+                            <option>B.Tech Civil Engineering</option>
+                            <option>B.Tech Mechanical Engineering</option>
+                            <option>B.Tech Electrical Engineering</option>
+                            <option>B.Tech Electronics Engineering</option>
+                            <option>B. Architecture</option>
+                            <option>B.Tech Computer Science & Engineering</option>
+                            <option>B.Tech Chemical Engineering</option>
+                            <option>B.Tech Information Technology</option>
+                            <option>B.Tech Electronics & Telecommunication Engineering</option>
+                            <option>B.Tech Automobile Engineering</option>
+                            <option>B.Tech Information Technology (Artificial Intelligence and Robotics)</option>
+                            <option>B.Tech Internet of Things (IoT) (Offered by Information Technology Department)
+                            </option>
+                            <option>B.Tech Mathematics and Computing</option>
+                            <option>B.Tech Internet of Things (Offered by Electrical Engineering Department)</option>
+                            <option>B.Tech Artificial Intelligence (AI) and Data Science</option>
+                            <option>B.Tech Artificial Intelligence and Machine Learning</option>
+                            <option>B.Tech Computer Science and Design</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="filterSem" class="form-label">Semester</label>
+                        <select id="filterSem" class="form-select">
+                            <option value="">All</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="filterSubject" class="form-label">Subject</label>
+                        <input id="filterSubject" class="form-control" placeholder="Subject">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100">Filter</button>
+                    </div>
+                </form>
+            </div>
+            <!-- FILTERED UPLOADS TABLE -->
+            <div class="card dashboard-card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">All Uploaded Notes & PYQ</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle" id="allUploadsTable">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Branch</th>
+                                    <th>Semester</th>
+                                    <th>Subject</th>
+                                    <th>File Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Filtered uploads will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal for Upload PYQ -->
+            <div class="modal fade" id="uploadPYQModal" tabindex="-1" aria-labelledby="uploadPYQModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content position-relative">
+                        <div class="upload-spinner" id="pyqSpinner">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Uploading...</span>
+                            </div>
+                        </div>
+                        <form id="pyqForm">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="uploadPYQModalLabel">Upload PYQ</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="pyqBranch" class="form-label">Branch</label>
+                                    <select class="form-select" id="pyqBranch" required>
+                                        <option value="">Select Branch</option>
+                                        <option>B.Tech Civil Engineering</option>
+                                        <option>B.Tech Mechanical Engineering</option>
+                                        <option>B.Tech Electrical Engineering</option>
+                                        <option>B.Tech Electronics Engineering</option>
+                                        <option>B. Architecture</option>
+                                        <option>B.Tech Computer Science & Engineering</option>
+                                        <option>B.Tech Chemical Engineering</option>
+                                        <option>B.Tech Information Technology</option>
+                                        <option>B.Tech Electronics & Telecommunication Engineering</option>
+                                        <option>B.Tech Automobile Engineering</option>
+                                        <option>B.Tech Information Technology (Artificial Intelligence and Robotics)
+                                        </option>
+                                        <option>B.Tech Internet of Things (IoT) (Offered by Information Technology
+                                            Department)
+                                        </option>
+                                        <option>B.Tech Mathematics and Computing</option>
+                                        <option>B.Tech Internet of Things (Offered by Electrical Engineering Department)
+                                        </option>
+                                        <option>B.Tech Artificial Intelligence (AI) and Data Science</option>
+                                        <option>B.Tech Artificial Intelligence and Machine Learning</option>
+                                        <option>B.Tech Computer Science and Design</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pyqSem" class="form-label">Semester</label>
+                                    <select class="form-select" id="pyqSem" required>
+                                        <option value="">Select Semester</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pyqSubject" class="form-label">Subject</label>
+                                    <input list="pyqSubjectList" class="form-control" id="pyqSubject" required
+                                        placeholder="Select or type subject">
+                                    <datalist id="pyqSubjectList">
+                                        <option value="Mathematics">
+                                        <option value="Physics">
+                                        <option value="Chemistry">
+                                        <option value="Computer Networks">
+                                        <option value="Data Structures">
+                                        <option value="Operating Systems">
+                                        <option value="Engineering Mechanics">
+                                        <option value="Thermodynamics">
+                                            <!-- Add more common subjects as needed -->
+                                    </datalist>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="pyqFile" class="form-label">Select PDF File</label>
+                                    <input type="file" class="form-control" id="pyqFile" accept="application/pdf"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal for Upload Notes -->
+            <div class="modal fade" id="uploadNotesModal" tabindex="-1" aria-labelledby="uploadNotesModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content position-relative">
+                        <div class="upload-spinner" id="notesSpinner">
+                            <div class="spinner-border text-success" role="status">
+                                <span class="visually-hidden">Uploading...</span>
+                            </div>
+                        </div>
+                        <form id="notesForm">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="uploadNotesModalLabel">Upload Notes</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="notesBranch" class="form-label">Branch</label>
+                                    <select class="form-select" id="notesBranch" required>
+                                        <option value="">Select Branch</option>
+                                        <option>B.Tech Civil Engineering</option>
+                                        <option>B.Tech Mechanical Engineering</option>
+                                        <option>B.Tech Electrical Engineering</option>
+                                        <option>B.Tech Electronics Engineering</option>
+                                        <option>B. Architecture</option>
+                                        <option>B.Tech Computer Science & Engineering</option>
+                                        <option>B.Tech Chemical Engineering</option>
+                                        <option>B.Tech Information Technology</option>
+                                        <option>B.Tech Electronics & Telecommunication Engineering</option>
+                                        <option>B.Tech Automobile Engineering</option>
+                                        <option>B.Tech Information Technology (Artificial Intelligence and Robotics)
+                                        </option>
+                                        <option>B.Tech Internet of Things (IoT) (Offered by Information Technology
+                                            Department)
+                                        </option>
+                                        <option>B.Tech Mathematics and Computing</option>
+                                        <option>B.Tech Internet of Things (Offered by Electrical Engineering Department)
+                                        </option>
+                                        <option>B.Tech Artificial Intelligence (AI) and Data Science</option>
+                                        <option>B.Tech Artificial Intelligence and Machine Learning</option>
+                                        <option>B.Tech Computer Science and Design</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notesSem" class="form-label">Semester</label>
+                                    <select class="form-select" id="notesSem" required>
+                                        <option value="">Select Semester</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notesSubject" class="form-label">Subject</label>
+                                    <input list="notesSubjectList" class="form-control" id="notesSubject" required
+                                        placeholder="Select or type subject">
+                                    <datalist id="notesSubjectList">
+                                        <option value="Mathematics">
+                                        <option value="Physics">
+                                        <option value="Chemistry">
+                                        <option value="Computer Networks">
+                                        <option value="Data Structures">
+                                        <option value="Operating Systems">
+                                        <option value="Engineering Mechanics">
+                                        <option value="Thermodynamics">
+                                            <!-- Add more common subjects as needed -->
+                                    </datalist>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="notesFile" class="form-label">Select PDF File</label>
+                                    <input type="file" class="form-control" id="notesFile" accept="application/pdf"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Upload</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal for My Uploads -->
+            <div class="modal fade" id="myUploadsModal" tabindex="-1" aria-labelledby="myUploadsModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myUploadsModalLabel">My Uploads</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-bordered" id="uploadsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Branch</th>
+                                        <th>Semester</th>
+                                        <th>Subject</th>
+                                        <th>File Name</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Uploads will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal for PDF Preview -->
+            <div class="modal fade" id="pdfPreviewModal" tabindex="-1" aria-labelledby="pdfPreviewModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="pdfPreviewModalLabel">PDF Preview</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="height:80vh;">
+                            <embed id="pdfPreviewEmbed" src="" type="application/pdf" width="100%" height="100%"
+                                style="min-height:70vh;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function displayUserInfo() {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (user) {
+                    const firstName = user.firstName || '';
+                    const lastName = user.lastName || '';
+                    let displayName = `${firstName} ${lastName}`.trim();
+                    if (!displayName) {
+                        displayName = user.email; // Fallback to email if name parts are missing
+                    }
+                    document.getElementById('userName').textContent = displayName;
+
+                    if (user.picture && user.picture.includes('googleusercontent.com')) {
+                        document.getElementById('profilePicture').src = user.picture;
+                    } else {
+                        const avatarName = displayName || 'User'; // Use displayName for avatar
+                        document.getElementById('profilePicture').src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(avatarName);
+                    }
+                } else {
+                    // If no user info, redirect to login
+                    window.location.href = "index.html";
+                }
+            }
+
+            function logout() {
+                localStorage.removeItem('user');
+                window.location.href = "index.html";
+            }
+
+            // --- Shared Uploads Storage for Both Roles ---
+            async function getUploads() {
+                // Fetch all uploads from backend
+                const res = await fetch('/api/uploads');
+                if (!res.ok) return [];
+                return await res.json();
+            }
+            async function saveUploads() {
+                // No-op: uploads are now managed by backend
+            }
+
+            // --- UPLOAD LOGIC ---
+            function uploadPYQ() {
+                var modal = new bootstrap.Modal(document.getElementById('uploadPYQModal'));
+                modal.show();
+            }
+            function uploadNotes() {
+                var modal = new bootstrap.Modal(document.getElementById('uploadNotesModal'));
+                modal.show();
+            }
+            function viewUploads() {
+                populateUploadsTable();
+                var modal = new bootstrap.Modal(document.getElementById('myUploadsModal'));
+                modal.show();
+            }
+
+            // Helper to get current user
+            function getCurrentUser() {
+                return JSON.parse(localStorage.getItem('user') || '{}');
+            }
+
+            // --- UPLOAD FORM SUBMIT (PYQ) ---
+            document.getElementById('pyqForm').onsubmit = async function (e) {
+                e.preventDefault();
+                const user = getCurrentUser();
+                const branch = document.getElementById('pyqBranch').value;
+                const sem = document.getElementById('pyqSem').value;
+                const subject = document.getElementById('pyqSubject').value;
+                const fileInput = document.getElementById('pyqFile');
+                const file = fileInput.files[0];
+
+                if (!file) {
+                    alert('Please select a file.');
+                    return;
+                }
+                if (file.type !== "application/pdf") {
+                    alert('Please select a PDF file.');
+                    return;
+                }
+                // Add other validations like file size if necessary
+
+                document.getElementById('pyqSpinner').style.display = 'flex';
+                const formData = new FormData();
+                formData.append('type', 'PYQ');
+                formData.append('branch', branch);
+                formData.append('sem', sem);
+                formData.append('subject', subject);
+                formData.append('file', file);
+                formData.append('uploader_email', user.email);
+                formData.append('uploader_name', `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email);
+                formData.append('uploader_role', 'faculty');
+
+                try {
+                    const res = await fetch('/api/uploads', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    document.getElementById('pyqSpinner').style.display = 'none';
+
+                    if (res.ok) {
+                        // const data = await res.json(); // Assuming success response is JSON and might be used
+                        fileInput.value = ''; // Clear file input
+                        document.getElementById('pyqBranch').value = '';
+                        document.getElementById('pyqSem').value = '';
+                        document.getElementById('pyqSubject').value = '';
+                        bootstrap.Modal.getInstance(document.getElementById('uploadPYQModal')).hide();
+                        alert('PYQ uploaded successfully!');
+                        await populateUploadsTable(); // Refresh "My Uploads"
+                        await populateAllUploadsTable(); // Refresh "All Uploads"
+                    } else {
+                        let errorMsg = 'Upload failed.';
+                        try {
+                            const errorData = await res.json();
+                            if (errorData && errorData.error) {
+                                errorMsg += ` Server: ${errorData.error}`;
+                            } else {
+                                errorMsg += ` Status: ${res.status}`;
+                            }
+                        } catch (e) {
+                            errorMsg += ` Status: ${res.status}. Could not parse error response.`;
+                        }
+                        alert(errorMsg);
+                    }
+                } catch (err) {
+                    document.getElementById('pyqSpinner').style.display = 'none';
+                    alert(`Upload error: ${err.message || 'Network error or client-side issue.'}`);
+                }
+            };
+
+            // --- UPLOAD FORM SUBMIT (Notes) ---
+            document.getElementById('notesForm').onsubmit = async function (e) {
+                e.preventDefault();
+                const user = getCurrentUser();
+                const branch = document.getElementById('notesBranch').value;
+                const sem = document.getElementById('notesSem').value;
+                const subject = document.getElementById('notesSubject').value;
+                const fileInput = document.getElementById('notesFile');
+                const file = fileInput.files[0];
+
+                if (!file) {
+                    alert('Please select a file.');
+                    return;
+                }
+                if (file.type !== "application/pdf") {
+                    alert('Please select a PDF file.');
+                    return;
+                }
+                // Add other validations like file size if necessary
+
+                document.getElementById('notesSpinner').style.display = 'flex';
+                const formData = new FormData();
+                formData.append('type', 'Notes');
+                formData.append('branch', branch);
+                formData.append('sem', sem);
+                formData.append('subject', subject);
+                formData.append('file', file);
+                formData.append('uploader_email', user.email);
+                formData.append('uploader_name', `${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email);
+                formData.append('uploader_role', 'faculty');
+
+                try {
+                    const res = await fetch('/api/uploads', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    document.getElementById('notesSpinner').style.display = 'none';
+
+                    if (res.ok) {
+                        // const data = await res.json(); // Assuming success response is JSON
+                        fileInput.value = ''; // Clear file input
+                        document.getElementById('notesBranch').value = '';
+                        document.getElementById('notesSem').value = '';
+                        document.getElementById('notesSubject').value = '';
+                        bootstrap.Modal.getInstance(document.getElementById('uploadNotesModal')).hide();
+                        alert('Notes uploaded successfully!');
+                        await populateUploadsTable(); // Refresh "My Uploads"
+                        await populateAllUploadsTable(); // Refresh "All Uploads"
+                    } else {
+                        let errorMsg = 'Upload failed.';
+                        try {
+                            const errorData = await res.json();
+                            if (errorData && errorData.error) {
+                                errorMsg += ` Server: ${errorData.error}`;
+                            } else {
+                                errorMsg += ` Status: ${res.status}`;
+                            }
+                        } catch (e) {
+                            errorMsg += ` Status: ${res.status}. Could not parse error response.`;
+                        }
+                        alert(errorMsg);
+                    }
+                } catch (err) {
+                    document.getElementById('notesSpinner').style.display = 'none';
+                    alert(`Upload error: ${err.message || 'Network error or client-side issue.'}`);
+                }
+            };
+
+            // --- POPULATE MY UPLOADS TABLE ---
+            async function populateUploadsTable() {
+                const user = getCurrentUser();
+                if (!user || !user.email) {
+                    console.error("User or user email not found for populating 'My Uploads'");
+                    return;
+                }
+                console.log('Current user email:', user.email); // Log user email
+                const allUploads = await getUploads();
+                console.log('All uploads fetched:', allUploads); // Log all uploads fetched
+                const uploads = allUploads.filter(u => {
+                    // Check if uploaderEmail exists before comparing
+                    if (u.uploaderEmail === undefined) {
+                        console.warn('Upload object is missing uploaderEmail property:', u);
+                    }
+                    // Change filter to use uploaderEmail
+                    console.log(`Comparing upload email '${u.uploaderEmail}' with user email '${user.email}'. Result: ${u.uploaderEmail === user.email}`);
+                    return u.uploaderEmail === user.email;
+                });
+                console.log('Filtered uploads for current user:', uploads); // Log filtered uploads
+                const tbody = document.querySelector('#uploadsTable tbody');
+                tbody.innerHTML = ''; // Clear existing rows
+                if (uploads.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center">You have not uploaded any files yet.</td></tr>';
+                    return;
+                }
+                uploads.forEach((upload) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${upload.type || ''}</td>
+                        <td>${upload.branch || ''}</td>
+                        <td>${upload.sem || ''}</td>
+                        <td>${upload.subject || ''}</td>
+                        <td>${upload.fileName || ''} <button class="btn btn-link btn-sm" onclick="viewUpload('/uploads/${upload.filePath}')">View</button></td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteUpload('${upload.id}')">Delete</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // --- DELETE LOGIC ---
+            async function deleteUpload(id) {
+                if (!confirm('Are you sure you want to delete this upload?')) return;
+                try {
+                    const res = await fetch(`/api/uploads/${id}`, { method: 'DELETE' });
+                    if (res.ok) {
+                        await populateUploadsTable();
+                        await populateAllUploadsTable();
+                    } else {
+                        alert('Delete failed.');
+                    }
+                } catch (err) {
+                    alert('Delete error.');
+                }
+            }
+
+            // --- POPULATE ALL UPLOADS TABLE ---
+            async function populateAllUploadsTable(filteredUploads) {
+                const uploads = filteredUploads || await getUploads();
+                const tbody = document.querySelector('#allUploadsTable tbody');
+                tbody.innerHTML = ''; // Clear existing rows
+                if (uploads.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center">No uploads found.</td></tr>';
+                    return;
+                }
+                uploads.forEach((upload) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${upload.type || ''}</td>
+                        <td>${upload.branch || ''}</td>
+                        <td>${upload.sem || ''}</td>
+                        <td>${upload.subject || ''}</td>
+                        <td>${upload.fileName || ''} <button class="btn btn-link btn-sm" onclick="viewUpload('/uploads/${upload.filePath}')">View</button></td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteUpload('${upload.id}')">Delete</button></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // --- PDF PREVIEW ---
+            function viewUpload(url) {
+                document.getElementById('pdfPreviewEmbed').src = url;
+                var modal = new bootstrap.Modal(document.getElementById('pdfPreviewModal'));
+                modal.show();
+            }
+
+            // --- FILTER FUNCTION ---
+            document.getElementById('filterForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const type = document.getElementById('filterType').value;
+                const branch = document.getElementById('filterBranch').value;
+                const sem = document.getElementById('filterSem').value;
+                const subject = document.getElementById('filterSubject').value.trim().toLowerCase();
+                let uploads = await getUploads();
+                if (type) uploads = uploads.filter(u => u.type === type);
+                if (branch) uploads = uploads.filter(u => u.branch === branch);
+                if (sem) uploads = uploads.filter(u => u.sem === sem);
+                if (subject) uploads = uploads.filter(u => (u.subject || '').toLowerCase().includes(subject));
+                await populateAllUploadsTable(uploads);
+            });
+
+            // --- INITIAL LOAD ---
+            document.addEventListener('DOMContentLoaded', async function () {
+                displayUserInfo(); // Call this first to set up user info or redirect
+                // Ensure user is still valid before proceeding
+                if (!localStorage.getItem('user')) {
+                    return; // displayUserInfo would have ed
+                }
+                await populateUploadsTable(); // For "My Uploads" modal
+                await populateAllUploadsTable(); // For the main table on the dashboard
+            });
+        </script>
+    </body>
+
+</html>
